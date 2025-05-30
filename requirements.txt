@@ -1,9 +1,10 @@
-Flask~=3.1 # (Any version starting with "3.1")
+Flask~=3.1
 Gunicorn
 Flask-Login~=0.6.2
 Flask-Migrate~=4.0.4
 Flask-SQLAlchemy~=3.0.5
 SQLAlchemy~=2.0.16
-flask-WTF
+Flask-WTF
 psycopg2-binary
+
 
