@@ -1,20 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <title>Accommodations</title>
-</head>
-<body>
-    <h1>Accommodations</h1>
+{% extends 'base.html' %}
 
-    {% if projects %}
-        <ul>
-        {% for project in projects %}
-            <li><strong>{{ project.name }}</strong>: {{ project.description }}</li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <p>No accommodations found.</p>
-    {% endif %}
-</body>
-</html>
+{% block content %}
+<header class="bg-light py-5 text-center">
+  <div class="container">
+    <h1 class="display-4">Reconnect with Nature</h1>
+    <p class="lead">Luxury glamping on the tranquil shores of the Shannon Estuary</p>
+    <a href="#accommodations" class="btn btn-success btn-lg mt-3">Explore Stays</a>
+  </div>
+</header>
+
+<section id="accommodations" class="py-5">
+  <div class="container">
+    <h2 class="text-center mb-4">Our Accommodations</h2>
+    <div class="row">
+      {% for project in projects %}
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">{{ project.name }}</h5>
+              <p class="card-text">{{ project.description }}</p>
+            </div>
+          </div>
+        </div>
+      {% else %}
+        <p class="text-center">No accommodations found.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

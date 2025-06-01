@@ -6,3 +6,11 @@ from app.models import Project
 def home():
     projects = Project.query.all()
     return render_template('home.html', projects=projects)
+@main.route('/about')
+def about():
+    return render_template('about.html')
+@main.route('/accommodations')
+def accommodations():
+    projects = Project.query.all()
+    return render_template('accommodations.html', projects=projects)
+

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="py-5 bg-light">
+  <div class="container">
+    <h1 class="mb-4 text-center">About Shannon Glamping</h1>
+    <p class="lead text-center">
+      Nestled on the serene banks of the Shannon Estuary, Shannon Glamping offers a unique blend of comfort and nature.
+    </p>
+    <p>
+      We believe in creating unforgettable outdoor experiences while ensuring every guest enjoys the luxury of a cozy, eco-friendly stay.
+      Whether you're a couple seeking a romantic getaway or a family yearning for a nature-filled adventure, we have the perfect retreat for you.
+    </p>
+    <p>
+      Our accommodations are designed with sustainability in mind, using local materials and offering stunning views of the surrounding landscape.
+    </p>
+    <div class="text-center mt-4">
+      <a href="{{ url_for('main.home') }}" class="btn btn-success">Back to Home</a>
+    </div>
+  </div>
+</section>
+{% endblock %}
