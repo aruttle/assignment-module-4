@@ -1,4 +1,4 @@
-from app import db  # Import the single shared db instance
+from app import db 
 
 class Guest(db.Model):
     __tablename__ = 'guests'
