@@ -54,7 +54,7 @@ def book():
             flash('End date must be after start date.', 'danger')
             return redirect(url_for('main.book'))
 
-        # Check for overlapping bookings for selected accommodation
+        # Check for overlapping bookings
         existing_bookings = Booking.query.filter_by(accommodation_id=accommodation_id).all()
         for booking in existing_bookings:
             if not (end_date <= booking.start_date or start_date >= booking.end_date):
@@ -80,22 +80,30 @@ def book():
         flash('Booking successful! Thank you.', 'success')
         return redirect(url_for('main.home'))
 
-    # For GET request – build date ranges to disable in Flatpickr
+    # GET request - prepare booked date ranges grouped by accommodation
+    from collections import defaultdict
     all_bookings = Booking.query.all()
-    booked_ranges = [
-        {
-            "accommodation_id": b.accommodation_id,
-            "start": b.start_date.strftime('%Y-%m-%d'),
-            "end": b.end_date.strftime('%Y-%m-%d')
-        }
-        for b in all_bookings
-    ]
+    booked_ranges_by_accommodation = defaultdict(list)
+
+    for booking in all_bookings:
+        booked_ranges_by_accommodation[booking.accommodation_id].append({
+            'start': booking.start_date.strftime('%Y-%m-%d'),
+            'end': booking.end_date.strftime('%Y-%m-%d')
+        })
 
     return render_template(
         'book.html',
         accommodation_types=accommodation_types,
         accommodations=accommodations,
-        booked_ranges=booked_ranges
+        booked_ranges=booked_ranges_by_accommodation
     )
+
+@main.route('/accommodation/<int:accommodation_id>')
+def accommodation_detail(accommodation_id):
+    accommodation = Accommodation.query.get_or_404(accommodation_id)
+    return render_template('accommodation_detail.html', accommodation=accommodation)
+
+
+
 
 

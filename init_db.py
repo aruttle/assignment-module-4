@@ -1,6 +1,7 @@
 from app import db, create_app
 from app.models import AccommodationType, Accommodation
 
+
 app = create_app()
 
 with app.app_context():
@@ -19,10 +20,34 @@ with app.app_context():
 
     # Seed accommodations with reference to types
     accommodations = [
-        {'name': 'Cozy Cabin #1', 'description': 'A warm, wooden cabin', 'price_per_night': 120.0, 'type_name': 'Cabin'},
-        {'name': 'Forest Yurt', 'description': 'A spacious yurt in the forest', 'price_per_night': 150.0, 'type_name': 'Yurt'},
-        {'name': 'Sky Treehouse', 'description': 'A treehouse with great views', 'price_per_night': 200.0, 'type_name': 'Treehouse'},
-        {'name': 'Lakeside Cabin', 'description': 'Cabin by the lake', 'price_per_night': 130.0, 'type_name': 'Cabin'},
+        {
+            'name': 'Cozy Cabin #1', 
+         'description': 'A warm, wooden cabin', 
+         'price_per_night': 120.0, 
+         'type_name': 'Cabin',
+         'image_url': '/static/images/cabin.jpg'
+         },
+        {
+            'name': 'Forest Yurt', 
+         'description': 'A spacious yurt in the forest', 
+         'price_per_night': 150.0, 
+         'type_name': 'Yurt',
+         'image_url': '/static/images/yurt.jpg'
+         },
+        {
+            'name': 'Sky Treehouse', 
+         'description': 'A treehouse with great views', 
+         'price_per_night': 200.0, 
+         'type_name': 'Treehouse',
+         'image_url': '/static/images/treehouse.jpg'
+         },
+        {
+            'name': 'Lakeside Cabin', 
+         'description': 'Cabin by the lake', 
+         'price_per_night': 130.0, 
+         'type_name': 'Cabin',
+         'image_url': '/static/images/gallery7.jpg'
+         },
     ]
 
     for acc in accommodations:
@@ -33,7 +58,8 @@ with app.app_context():
                 name=acc['name'],
                 description=acc['description'],
                 price_per_night=acc['price_per_night'],
-                type_id=atype.id
+                type_id=atype.id,
+                image_url=acc['image_url']
             )
             db.session.add(accommodation)
 

@@ -1,7 +1,9 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
 db = SQLAlchemy()
+migrate = Migrate()  # Declare outside so it can be reused
 
 def create_app():
     app = Flask(__name__)
@@ -15,7 +17,9 @@ def create_app():
     # Disable tracking modifications to save resources
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+    # Initialize extensions
     db.init_app(app)
+    migrate.init_app(app, db)  # This was correct — no need to redeclare migrate locally
 
     # Register blueprints
     from app.main import main as main_blueprint
