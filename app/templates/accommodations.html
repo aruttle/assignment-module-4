@@ -1,25 +1,18 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block content %}
-<section class="py-5">
-  <div class="container">
-    <h2 class="mb-4 text-center">Our Accommodations</h2>
-    <div class="row">
-      {% for accom in accommodations %}
-      <div class="col-md-4 mb-4">
-        <div class="card h-100 shadow-sm">
-          <div class="card-body">
-            <h5 class="card-title">{{ accom.name }}</h5>
-            <p class="card-text">{{ accom.description }}</p>
-          </div>
+<h2>Accommodations</h2>
+<div class="row">
+  {% for accommodation in accommodations %}
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">{{ accommodation.name }}</h5>
+          <p class="card-text">{{ accommodation.description }}</p>
+          <p class="text-muted">€{{ accommodation.price_per_night }} per night</p>
         </div>
       </div>
-      {% else %}
-      <div class="col-12 text-center">
-        <p>No accommodations available.</p>
-      </div>
-      {% endfor %}
     </div>
-  </div>
-</section>
+  {% endfor %}
+</div>
 {% endblock %}
