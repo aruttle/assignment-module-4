@@ -1,33 +1,26 @@
-function disableBookedDates(bookedRanges) {
-    const startInput = document.getElementById('start_date');
-    const endInput = document.getElementById('end_date');
-  
-    const disabledDates = new Set();
-    bookedRanges.forEach(([startStr, endStr]) => {
-      let current = new Date(startStr);
-      const end = new Date(endStr);
-      while (current <= end) {
-        disabledDates.add(current.toISOString().split('T')[0]);
-        current.setDate(current.getDate() + 1);
+document.addEventListener('DOMContentLoaded', () => {
+  const accommodations = JSON.parse(document.getElementById('accommodations-data').textContent);
+  const accommodationTypeSelect = document.getElementById('accommodation_type');
+  const accommodationSelect = document.getElementById('accommodation');
+
+  function populateAccommodations(typeId) {
+    accommodationSelect.innerHTML = '<option value="" disabled selected>Select accommodation</option>';
+    accommodations.forEach(acc => {
+      if (acc.type_id == typeId) {
+        const option = document.createElement('option');
+        option.value = acc.id;
+        option.textContent = acc.name;
+        accommodationSelect.appendChild(option);
       }
     });
-  
-    function isDateDisabled(dateStr) {
-      return disabledDates.has(dateStr);
-    }
-  
-    function validateDates() {
-      if (isDateDisabled(startInput.value)) {
-        alert("Check-in date is not available.");
-        startInput.value = '';
-      }
-      if (isDateDisabled(endInput.value)) {
-        alert("Check-out date is not available.");
-        endInput.value = '';
-      }
-    }
-  
-    startInput.addEventListener('change', validateDates);
-    endInput.addEventListener('change', validateDates);
   }
-  
+
+  accommodationTypeSelect.addEventListener('change', function () {
+    const selectedTypeId = this.value;
+    populateAccommodations(selectedTypeId);
+  });
+
+  if (accommodationTypeSelect.value) {
+    populateAccommodations(accommodationTypeSelect.value);
+  }
+});

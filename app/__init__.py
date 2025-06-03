@@ -1,4 +1,3 @@
-import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
@@ -6,12 +5,21 @@ db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__)
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'postgresql://postgres:Cottage087@localhost/glamping')
+
+    # Secret key for session management and CSRF protection
+    app.config['SECRET_KEY'] = 'your-secret-key'
+
+    # PostgreSQL connection URI
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Cottage087@localhost:5432/glamping'
+
+    # Disable tracking modifications to save resources
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     db.init_app(app)
 
-    from app.main.routes import main
-    app.register_blueprint(main)
+    # Register blueprints
+    from app.main import main as main_blueprint
+    app.register_blueprint(main_blueprint)
 
     return app
+
