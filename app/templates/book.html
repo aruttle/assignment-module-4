@@ -32,15 +32,14 @@
   </div>
 
   <!-- Accommodation -->
-  <div class="mb-3">
-    <label for="accommodation" class="form-label">Accommodation</label>
-    <select name="accommodation" id="accommodation" class="form-select" required>
-      <option value="" disabled selected>Select accommodation</option>
-      {% for acc in accommodations %}
-        <option value="{{ acc.id }}">{{ acc.name }}</option>
-      {% endfor %}
-    </select>
-  </div>
+<div class="mb-3">
+  <label for="accommodation" class="form-label">Accommodation</label>
+  <select name="accommodation" id="accommodation" class="form-select" required>
+    <option value="" disabled selected>Select accommodation</option>
+    <!-- Options will be populated by JS -->
+  </select>
+</div>
+
 
   <!-- Dates -->
   <div class="mb-3">
@@ -58,7 +57,13 @@
 
 <!-- Pass data to JS -->
 <script id="accommodations-data" type="application/json">
-  {{ accommodations|tojson|safe }}
+  {{ accommodations | tojson | safe }}
 </script>
+
+<script id="booked-ranges-data" type="application/json">
+  {{ booked_ranges | tojson | safe }}
+</script>
+
 <script src="{{ url_for('static', filename='js/booking.js') }}"></script>
+
 {% endblock %}

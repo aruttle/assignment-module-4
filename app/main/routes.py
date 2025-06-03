@@ -54,12 +54,14 @@ def book():
             flash('End date must be after start date.', 'danger')
             return redirect(url_for('main.book'))
 
+        # Check for overlapping bookings for selected accommodation
         existing_bookings = Booking.query.filter_by(accommodation_id=accommodation_id).all()
         for booking in existing_bookings:
             if not (end_date <= booking.start_date or start_date >= booking.end_date):
                 flash('Selected accommodation is not available for those dates.', 'danger')
                 return redirect(url_for('main.book'))
 
+        # Save guest and booking
         guest = Guest.query.filter_by(email=email).first()
         if not guest:
             guest = Guest(name=name, email=email, phone=phone)
@@ -78,9 +80,22 @@ def book():
         flash('Booking successful! Thank you.', 'success')
         return redirect(url_for('main.home'))
 
+    # For GET request – build date ranges to disable in Flatpickr
+    all_bookings = Booking.query.all()
+    booked_ranges = [
+        {
+            "accommodation_id": b.accommodation_id,
+            "start": b.start_date.strftime('%Y-%m-%d'),
+            "end": b.end_date.strftime('%Y-%m-%d')
+        }
+        for b in all_bookings
+    ]
+
     return render_template(
         'book.html',
         accommodation_types=accommodation_types,
-        accommodations=accommodations
+        accommodations=accommodations,
+        booked_ranges=booked_ranges
     )
+
 
