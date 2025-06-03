@@ -21,6 +21,7 @@ class Accommodation(db.Model):
     name = db.Column(db.String(120), nullable=False)
     description = db.Column(db.Text)
     price_per_night = db.Column(db.Float)
+    image_url = db.Column(db.String(255))
 
     type_id = db.Column(db.Integer, db.ForeignKey('accommodation_type.id'), nullable=False)
 
