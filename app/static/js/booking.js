@@ -5,8 +5,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const accommodationTypeSelect = document.getElementById('accommodation_type');
   const accommodationSelect = document.getElementById('accommodation');
 
+  const startInput = document.getElementById('start_date');
+  const endInput = document.getElementById('end_date');
+
   let startPicker = null;
   let endPicker = null;
+
+  // Disable date inputs initially
+  startInput.disabled = true;
+  endInput.disabled = true;
 
   function populateAccommodations(typeId) {
     accommodationSelect.innerHTML = '<option value="" disabled selected>Select accommodation</option>';
@@ -31,8 +38,10 @@ document.addEventListener('DOMContentLoaded', () => {
       endPicker.destroy();
       endPicker = null;
     }
-    document.getElementById('start_date').value = '';
-    document.getElementById('end_date').value = '';
+    startInput.value = '';
+    endInput.value = '';
+    startInput.disabled = true;
+    endInput.disabled = true;
   }
 
   function updateFlatpickr(accommodationId) {
@@ -49,13 +58,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     startPicker = flatpickr("#start_date", {
       dateFormat: 'Y-m-d',
+      minDate: 'today',  // Prevent past dates
       disable: disableRanges,
       onChange(selectedDates) {
         if (selectedDates.length > 0) {
-          // Set minDate for endPicker based on start date selection
           const minEndDate = selectedDates[0];
           endPicker.set('minDate', minEndDate);
-          // Optionally clear end date if it's before start date
           if (endPicker.selectedDates.length > 0 && endPicker.selectedDates[0] < minEndDate) {
             endPicker.clear();
           }
@@ -65,10 +73,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     endPicker = flatpickr("#end_date", {
       dateFormat: 'Y-m-d',
+      minDate: 'today',  // Prevent past dates
       disable: disableRanges,
-      // Initially, disable dates before start date if selected
-      minDate: startPicker.selectedDates.length > 0 ? startPicker.selectedDates[0] : null,
     });
+
+    // Enable date inputs now that accommodation is selected
+    startInput.disabled = false;
+    endInput.disabled = false;
   }
 
   accommodationTypeSelect.addEventListener('change', function () {

@@ -18,6 +18,11 @@ def accommodations():
     accommodations = Accommodation.query.all()
     return render_template('accommodations.html', accommodations=accommodations)
 
+@main.route('/gallery')
+def gallery():
+    return render_template('gallery.html')
+
+
 @main.route('/book', methods=['GET', 'POST'])
 def book():
     accommodation_types = AccommodationType.query.all()

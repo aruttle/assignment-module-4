@@ -1,3 +1,27 @@
 body {
-  padding-top: 70px; 
+  padding-top: 30px; 
+}
+
+.navbar-nav .nav-link {
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 0%;
+  height: 2px;
+  background-color: #ffffff;
+  transition: width 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #d4f4dd; 
+}
+
+.navbar-nav .nav-link:hover::after {
+  width: 100%;
 }
