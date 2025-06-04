@@ -6,7 +6,8 @@ from app.models import Guest, Accommodation, Booking, AccommodationType
 
 @main.route('/')
 def home():
-    return render_template('home.html')
+    accommodations = Accommodation.query.limit(3).all()  # adjust to match your model and DB
+    return render_template('home.html', accommodations=accommodations)
 
 @main.route('/about')
 def about():
