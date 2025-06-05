@@ -1,26 +1,80 @@
-from flask import render_template, request, redirect, url_for, flash
+from flask import render_template, request, redirect, url_for, flash, session
 from datetime import datetime
+from functools import wraps
 from app.main import main
 from app import db
 from app.models import Guest, Accommodation, Booking, AccommodationType
 
+# Admin login required decorator
+def admin_login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not session.get('admin_logged_in'):
+            flash("Please log in to access the admin area.", "warning")
+            return redirect(url_for('main.admin_login'))
+        return f(*args, **kwargs)
+    return decorated_function
+
+
 @main.route('/')
 def home():
-    accommodations = Accommodation.query.limit(3).all()  # adjust to match your model and DB
+    accommodations = Accommodation.query.limit(3).all()
     return render_template('home.html', accommodations=accommodations)
+
 
 @main.route('/about')
 def about():
     return render_template('about.html')
+
 
 @main.route('/accommodations')
 def accommodations():
     accommodations = Accommodation.query.all()
     return render_template('accommodations.html', accommodations=accommodations)
 
+
 @main.route('/gallery')
 def gallery():
     return render_template('gallery.html')
+
+
+@main.route('/admin/login', methods=['GET', 'POST'])
+def admin_login():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        if username == 'admin' and password == '0000':  
+            flash('Logged in successfully.', 'success')
+            return redirect(url_for('main.admin_bookings'))
+        else:
+            flash('Invalid credentials.', 'danger')
+
+    return render_template('admin_login.html')
+
+
+@main.route('/admin/logout')
+def admin_logout():
+    session.pop('admin_logged_in', None)
+    flash('You have been logged out.', 'info')
+    return redirect(url_for('main.admin_login'))
+
+
+@main.route('/admin/bookings')
+@admin_login_required
+def admin_bookings():
+    bookings = Booking.query.all()
+    return render_template('admin_bookings.html', bookings=bookings)
+
+
+@main.route('/admin/delete-booking/<int:booking_id>', methods=['POST'])
+@admin_login_required
+def delete_booking(booking_id):
+    booking = Booking.query.get_or_404(booking_id)
+    db.session.delete(booking)
+    db.session.commit()
+    flash('Booking deleted successfully.', 'success')
+    return redirect(url_for('main.admin_bookings'))
 
 
 @main.route('/book', methods=['GET', 'POST'])
@@ -104,12 +158,8 @@ def book():
         booked_ranges=booked_ranges_by_accommodation
     )
 
+
 @main.route('/accommodation/<int:accommodation_id>')
 def accommodation_detail(accommodation_id):
     accommodation = Accommodation.query.get_or_404(accommodation_id)
     return render_template('accommodation_detail.html', accommodation=accommodation)
-
-
-
-
-
