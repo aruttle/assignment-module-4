@@ -1,29 +1,36 @@
+import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
 db = SQLAlchemy()
-migrate = Migrate()  
+migrate = Migrate()
 
 def create_app():
     app = Flask(__name__)
 
     # Secret key for session management and CSRF protection
-    app.config['SECRET_KEY'] = 'your-secret-key'
+    app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'your-secret-key')
 
-    # PostgreSQL connection URI
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Cottage087@localhost:5432/glamping'
+    # Database configuration using DATABASE_URL from environment, fallback to local PostgreSQL
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
+        'DATABASE_URL',
+        'postgresql://postgres:Cottage087@localhost:5432/glamping'
+    )
 
-    # Disable tracking modifications to save resources
+    # Ensure compatibility if DATABASE_URL uses 'postgres://' instead of 'postgresql://'
+    if app.config['SQLALCHEMY_DATABASE_URI'].startswith("postgres://"):
+        app.config['SQLALCHEMY_DATABASE_URI'] = app.config['SQLALCHEMY_DATABASE_URI'].replace("postgres://", "postgresql://", 1)
+
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-    # Initialize extensions
     db.init_app(app)
-    migrate.init_app(app, db)  # This was correct — no need to redeclare migrate locally
+    migrate.init_app(app, db)
 
-    # Register blueprints
+    # Register blueprint
     from app.main import main as main_blueprint
     app.register_blueprint(main_blueprint)
 
     return app
+
 
