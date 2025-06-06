@@ -1,7 +1,6 @@
 from app import db, create_app
 from app.models import AccommodationType, Accommodation
 
-
 app = create_app()
 
 with app.app_context():
@@ -11,47 +10,47 @@ with app.app_context():
     # Seed accommodation types
     types = ['Cabin', 'Yurt', 'Treehouse']
     accommodation_types = []
+
     for type_name in types:
         atype = AccommodationType(name=type_name)
         db.session.add(atype)
         accommodation_types.append(atype)
-    
+
     db.session.commit()
 
     # Seed accommodations with reference to types
     accommodations = [
         {
-            'name': 'Cozy Cabin #1', 
-         'description': 'A warm, wooden cabin', 
-         'price_per_night': 120.0, 
-         'type_name': 'Cabin',
-         'image_url': '/static/images/cabin.jpg'
-         },
+            'name': 'Cozy Cabin #1',
+            'description': 'A warm, wooden cabin',
+            'price_per_night': 120.0,
+            'type_name': 'Cabin',
+            'image_url': '/static/images/cabin.jpg'
+        },
         {
-            'name': 'Forest Yurt', 
-         'description': 'A spacious yurt in the forest', 
-         'price_per_night': 150.0, 
-         'type_name': 'Yurt',
-         'image_url': '/static/images/yurt.jpg'
-         },
+            'name': 'Forest Yurt',
+            'description': 'A spacious yurt in the forest',
+            'price_per_night': 150.0,
+            'type_name': 'Yurt',
+            'image_url': '/static/images/yurt.jpg'
+        },
         {
-            'name': 'Sky Treehouse', 
-         'description': 'A treehouse with great views', 
-         'price_per_night': 200.0, 
-         'type_name': 'Treehouse',
-         'image_url': '/static/images/treehouse.jpg'
-         },
+            'name': 'Sky Treehouse',
+            'description': 'A treehouse with great views',
+            'price_per_night': 200.0,
+            'type_name': 'Treehouse',
+            'image_url': '/static/images/treehouse.jpg'
+        },
         {
-            'name': 'Lakeside Cabin', 
-         'description': 'Cabin by the lake', 
-         'price_per_night': 130.0, 
-         'type_name': 'Cabin',
-         'image_url': '/static/images/gallery7.jpg'
-         },
+            'name': 'Lakeside Cabin',
+            'description': 'Cabin by the lake',
+            'price_per_night': 130.0,
+            'type_name': 'Cabin',
+            'image_url': '/static/images/gallery7.jpg'
+        },
     ]
 
     for acc in accommodations:
-        # find type id from seeded types
         atype = AccommodationType.query.filter_by(name=acc['type_name']).first()
         if atype:
             accommodation = Accommodation(
@@ -64,4 +63,4 @@ with app.app_context():
             db.session.add(accommodation)
 
     db.session.commit()
-    print("Database initialized and seeded with accommodation types and accommodations.")
+    print("✅ Database initialized and seeded.")
