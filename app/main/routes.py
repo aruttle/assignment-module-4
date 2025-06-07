@@ -44,7 +44,8 @@ def admin_login():
         username = request.form.get('username')
         password = request.form.get('password')
 
-        if username == 'admin' and password == '0000':  
+        if username == 'admin' and password == '0000': 
+            session['admin_logged_in'] = True
             flash('Logged in successfully.', 'success')
             return redirect(url_for('main.admin_bookings'))
         else:

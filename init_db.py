@@ -64,3 +64,4 @@ with app.app_context():
 
     db.session.commit()
     print("✅ Database initialized and seeded.")
+
