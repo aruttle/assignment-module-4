@@ -210,3 +210,6 @@ With more time, I would have liked to implement the following features to improv
 
 ### During development, I encountered several coding challenges. By leveraging resources such as MDN Web Docs, college notes, and AI-assisted queries, I was able to solve most issues. Some examples include:
  I initially attempted to use Flask-Migrate and render.yaml for automated database migrations on Render.com. However, this approach did not work as expected due to configuration issues. As a workaround (after many hours of pulling my hair out), I manually created the PostgreSQL database instance via Render’s dashboard and connected the app directly to this new server. 
+ One frustrating issue I only discovered late in the assignment was that I had accidentally created two branches on GitHub: main and master. All my commits had been pushed to the master branch, while main was intended as the primary branch. Once I noticed this, I consolidated all the commits into the main branch to keep the repository organised. The dates were effected by the consolidation in main but I kept both branches. See image below with correct dates for commits on the master branch: 
+![Sitemap](./docs/repo-before-change-from-master-to-main.png)
+[Link to view the image](./docs/repo-before-change-from-master-to-main.png)
