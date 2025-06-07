@@ -110,3 +110,26 @@ img {
   height: 100%;
   border: 0;
 }
+
+/* Accessibility Skip Link Style */
+ .skip-link {
+        position: absolute;
+        left: -999px;
+        top: auto;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        z-index: 100;
+      }
+
+      .skip-link:focus {
+        left: 10px;
+        top: 10px;
+        width: auto;
+        height: auto;
+        padding: 8px 16px;
+        background: #004225;
+        color: white;
+        border-radius: 4px;
+        text-decoration: none;
+      }
