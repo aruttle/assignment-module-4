@@ -164,3 +164,13 @@ def book():
 def accommodation_detail(accommodation_id):
     accommodation = Accommodation.query.get_or_404(accommodation_id)
     return render_template('accommodation_detail.html', accommodation=accommodation)
+
+# 404 handler
+@main.app_errorhandler(404)
+def not_found_error(error):
+    return render_template('404.html'), 404
+
+# 500 handler
+@main.app_errorhandler(500)
+def internal_error(error):
+    return render_template('500.html'), 500
