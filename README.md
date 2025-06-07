@@ -148,7 +148,7 @@ Records all bookings made by guests. Each booking associates a guest with an acc
 
 ---
 
-This structure allows the site to efficiently manage guest details, accommodation options, and booking schedules while maintaining data integrity through proper relational links.
+This structure allows the site to manage guest details, accommodation options, and booking schedules while using proper relational links.
 
 ## List of sources
 ### Images
